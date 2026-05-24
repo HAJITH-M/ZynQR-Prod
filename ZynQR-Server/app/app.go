@@ -46,7 +46,7 @@ func Handler() (http.Handler, error) {
 		router.SetUpRouter(r)
 
 		r.GET("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{"message": "hello I'm ZynQR-Server Backend"})
+			c.JSON(http.StatusOK, gin.H{"message": "Hello I'm ZynQR-Server Backend"})
 		})
 
 		handler = r
