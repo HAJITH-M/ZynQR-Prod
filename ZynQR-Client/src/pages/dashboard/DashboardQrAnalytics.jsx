@@ -120,7 +120,7 @@ export default function DashboardQrAnalytics() {
   }, []);
 
   return (
-    <div className={DASHBOARD_PAGE_SHELL}>
+    <div className={`${DASHBOARD_PAGE_SHELL} overflow-x-hidden`}>
       <nav aria-label="Breadcrumb" className="md:hidden">
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
           <li>
@@ -252,57 +252,69 @@ export default function DashboardQrAnalytics() {
               </button>
             </div>
           ) : null}
-          <div className="flex h-64 gap-2 px-4">
-            {growthLoading ? (
-              <p className="flex w-full items-center justify-center text-sm text-on-surface-variant">Loading chart…</p>
-            ) : growthBars.length === 0 ? (
-              <p className="flex w-full items-center justify-center text-sm text-on-surface-variant">
-                No scan events in this range yet.
-              </p>
-            ) : (
-              growthBars.map((bar, i) => (
-                <div
-                  key={`${bar.label}-${i}`}
-                  className="group relative flex h-full min-h-0 flex-1 cursor-default flex-col items-center justify-end focus-within:outline-none"
-                  tabIndex={0}
-                  role="img"
-                  aria-label={`${bar.label}: ${bar.count} scans in bucket ${bar.bucketStart ?? ""}`}
-                >
-                  <div
-                    className="pointer-events-none absolute left-1/2 z-20 w-max max-w-[min(18rem,calc(100vw-2rem))] min-w-22 -translate-x-1/2 rounded-lg border border-outline-variant/60 bg-surface-container-highest px-2.5 py-2 text-center shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
-                    style={{ bottom: `calc(${bar.h}% + 0.5rem)` }}
-                  >
-                    <p className="text-[10px] font-bold tracking-wide text-on-surface-variant uppercase">{bar.label}</p>
-                    <p className="mt-0.5 font-headline text-lg font-black tabular-nums text-primary">{bar.count}</p>
-                    <p className="text-[10px] font-medium text-on-surface-variant">
-                      {bar.count === 1 ? "scan" : "scans"} (activity log)
-                    </p>
-                    {bar.bucketStart && bar.bucketEnd ? (
-                      <p className="mt-1.5 max-w-[16rem] whitespace-normal text-left text-[9px] leading-snug text-on-surface-variant/90">
-                        {formatGrowthBucketUtcRange(bar.bucketStart, bar.bucketEnd)}
-                      </p>
-                    ) : null}
-                  </div>
-                  <div
-                    className={`relative z-0 w-full max-w-full rounded-t-lg transition-colors ${bar.className}`}
-                    style={{ height: `${bar.h}%`, minHeight: "6px" }}
-                  />
-                </div>
-              ))
-            )}
-          </div>
-          {!growthLoading && growthBars.length > 0 ? (
-            <div className="mt-2 flex gap-2 px-4">
-              {growthBars.map((bar, i) => (
-                <div
-                  key={`lbl-${bar.label}-${i}`}
-                  className="min-w-0 flex-1 truncate text-center text-[10px] font-bold tracking-tight text-on-surface-variant"
-                >
-                  {bar.label}
-                </div>
-              ))}
+          {growthLoading ? (
+            <div className="flex h-64 items-center justify-center text-sm text-on-surface-variant">Loading chart…</div>
+          ) : growthBars.length === 0 ? (
+            <div className="flex h-64 items-center justify-center text-sm text-on-surface-variant">
+              No scan events in this range yet.
             </div>
-          ) : null}
+          ) : (
+            <div className="overflow-y-visible pt-10">
+              <div className="flex h-56 min-w-full gap-2 sm:h-64">
+                {growthBars.map((bar, i) => {
+                  const last = i === growthBars.length - 1;
+                  const first = i === 0;
+                  const only = growthBars.length === 1;
+                  const tooltipPos = only
+                    ? "left-1/2 -translate-x-1/2 text-center"
+                    : last
+                      ? "right-0 left-auto translate-x-0 text-right"
+                      : first
+                        ? "left-0 translate-x-0 text-left"
+                        : "left-1/2 -translate-x-1/2 text-center";
+                  return (
+                    <div
+                      key={`${bar.label}-${i}`}
+                      className="group relative flex h-full min-h-0 min-w-0 flex-1 cursor-default flex-col items-center justify-end focus-within:outline-none"
+                      tabIndex={0}
+                      role="img"
+                      aria-label={`${bar.label}: ${bar.count} scans in bucket ${bar.bucketStart ?? ""}`}
+                    >
+                      <div
+                        className={`pointer-events-none absolute z-20 w-max max-w-[min(18rem,calc(100vw-2rem))] min-w-22 rounded-lg border border-outline-variant/60 bg-surface-container-highest px-2.5 py-2 shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 ${tooltipPos}`}
+                        style={{ bottom: `calc(${bar.h}% + 0.5rem)` }}
+                      >
+                        <p className="text-[10px] font-bold tracking-wide text-on-surface-variant uppercase">{bar.label}</p>
+                        <p className="mt-0.5 font-headline text-lg font-black tabular-nums text-primary">{bar.count}</p>
+                        <p className="text-[10px] font-medium text-on-surface-variant">
+                          {bar.count === 1 ? "scan" : "scans"} (activity log)
+                        </p>
+                        {bar.bucketStart && bar.bucketEnd ? (
+                          <p className="mt-1.5 max-w-[16rem] whitespace-normal text-[9px] leading-snug text-on-surface-variant/90">
+                            {formatGrowthBucketUtcRange(bar.bucketStart, bar.bucketEnd)}
+                          </p>
+                        ) : null}
+                      </div>
+                      <div
+                        className={`relative z-0 w-full max-w-full rounded-t-lg transition-colors ${bar.className}`}
+                        style={{ height: `${bar.h}%`, minHeight: "6px" }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="mt-2 flex min-w-full gap-2">
+                {growthBars.map((bar, i) => (
+                  <div
+                    key={`lbl-${bar.label}-${i}`}
+                    className="min-w-0 flex-1 truncate text-center text-[10px] font-bold tracking-tight text-on-surface-variant"
+                  >
+                    {bar.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="w-full lg:col-span-4">
@@ -370,7 +382,7 @@ export default function DashboardQrAnalytics() {
             </Link>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[480px] text-left">
+            <table className="w-full min-w-120 text-left">
               <thead>
                 <tr className="border-b border-surface-container text-[10px] font-black tracking-widest text-on-surface-variant/60 uppercase">
                   <th className="pb-4">Campaign / ID</th>
