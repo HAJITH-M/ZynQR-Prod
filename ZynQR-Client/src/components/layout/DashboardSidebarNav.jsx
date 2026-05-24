@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { clearAuthToken } from "../../api/axiosInstance";
 import { logoutCurrentSession } from "../../api/auth.api";
+import { useInstallApp } from "../../hooks/useInstallApp";
 import { LANDING_FREE_PLAN } from "../../lib/landing/pricingPlans";
+import { toast } from "../../utils/toast";
 import {
   dashboardSidebarLinks,
   isSidebarGroupActive,
@@ -102,6 +104,23 @@ function SidebarNavGroup({ group, pathname, onNavigate }) {
 export default function DashboardSidebarNav({ onNavigate, showCloseButton }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { canInstall, isIOS, promptInstall } = useInstallApp();
+
+  async function handleInstallApp() {
+    const result = await promptInstall();
+    if (result === "ios-instructions") {
+      toast.message("Install ZynQR on iOS", {
+        description:
+          "Tap the Share icon in Safari, then choose ‘Add to Home Screen’ to install the app.",
+        duration: 8000,
+      });
+    } else if (result === "unsupported") {
+      toast.message("Install from your browser menu", {
+        description: "Open your browser menu and choose ‘Install app’ or ‘Add to Home Screen’.",
+        duration: 6000,
+      });
+    }
+  }
 
   async function handleLogout(e) {
     e.preventDefault();
@@ -200,6 +219,18 @@ export default function DashboardSidebarNav({ onNavigate, showCloseButton }) {
             View pricing
           </span>
         </Link>
+        {canInstall ? (
+          <button
+            className={`${navItemClass} w-full hover:text-primary`}
+            type="button"
+            onClick={() => {
+              handleInstallApp();
+            }}
+          >
+            <span className="material-symbols-outlined">download</span>
+            <span>{isIOS ? "Add to Home Screen" : "Install app"}</span>
+          </button>
+        ) : null}
         <NavLink
           className={`${navItemClass} hover:text-primary`}
           to="/login"
