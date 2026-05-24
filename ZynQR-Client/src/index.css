@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@theme {
+  --radius-xl: 1.5rem;
+
+  --color-tertiary: #00668a;
+  --color-surface-container-low: #eff4f8;
+  --color-error: #ba1a1a;
+  --color-secondary-fixed-dim: #ffb59f;
+  --color-on-tertiary-fixed-variant: #004c69;
+  --color-on-primary-fixed-variant: #852300;
+  --color-tertiary-fixed-dim: #7bd0ff;
+  --color-tertiary-fixed: #c3e7ff;
+  --color-surface-dim: #d5dbdf;
+  --color-surface-bright: #f5fafe;
+  --color-background: #f5fafe;
+  --color-secondary: #9c4327;
+  --color-on-tertiary-container: #003043;
+  --color-on-error: #ffffff;
+  --color-inverse-primary: #ffb59f;
+  --color-inverse-on-surface: #ecf1f6;
+  --color-on-tertiary-fixed: #001e2c;
+  --color-on-primary-fixed: #3a0a00;
+  --color-on-secondary-container: #76270d;
+  --color-secondary-fixed: #ffdbd1;
+  --color-tertiary-container: #009ed4;
+  --color-on-surface: #161c1f;
+  --color-outline: #8f7067;
+  --color-surface-container: #e9eff3;
+  --color-surface-container-high: #e3e9ed;
+  --color-on-primary-container: #561400;
+  --color-on-background: #161c1f;
+  --color-on-tertiary: #ffffff;
+  --color-on-secondary-fixed: #3a0a00;
+  --color-on-secondary-fixed-variant: #7d2c12;
+  --color-secondary-container: #ff906e;
+  --color-primary-fixed: #ffdbd1;
+  --color-outline-variant: #e4beb4;
+  --color-primary-fixed-dim: #ffb59f;
+  --color-on-error-container: #93000a;
+  --color-surface: #f5fafe;
+  --color-surface-tint: #af3100;
+  --color-on-primary: #ffffff;
+  --color-primary: #af3100;
+  --color-on-secondary: #ffffff;
+  --color-inverse-surface: #2b3135;
+  --color-on-surface-variant: #5b4139;
+  --color-surface-container-highest: #dee3e7;
+  --color-error-container: #ffdad6;
+  --color-primary-container: #ff5c26;
+  --color-surface-variant: #dee3e7;
+  --color-surface-container-lowest: #ffffff;
+
+  --font-headline: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-label: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Nav links and actions should read as clickable (Tailwind utilities can still override). */
+  a[href],
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  /*
+   * Scrollbars aligned with ZynQR tokens (thin track + rounded thumb).
+   * Firefox + WebKit; avoids harsh OS-default bars on dashboard tables / charts.
+   */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-primary) 42%, var(--color-outline-variant))
+      var(--color-surface-container-high);
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    margin-block: 2px;
+    margin-inline: 2px;
+    border-radius: 9999px;
+    background: var(--color-surface-container-high);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    border: 2px solid var(--color-surface-container-high);
+    background: color-mix(in srgb, var(--color-primary) 38%, var(--color-outline-variant));
+    background-clip: padding-box;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--color-primary) 58%, var(--color-outline-variant));
+    background-clip: padding-box;
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+@layer components {
+  .material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(24px);
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .step-inactive {
+    opacity: 0.4;
+    filter: grayscale(1);
+  }
+
+  .input-editorial {
+    @apply w-full rounded-t-lg border-0 border-b-2 border-outline-variant bg-surface-container-low px-4 py-3 font-body ring-0 outline-none transition-colors focus:border-primary;
+  }
+
+  /* Shared ZynQR-style text/password inputs (used by TextField / PasswordField). */
+  .scan-field-input {
+    @apply w-full rounded-lg border-b-2 border-transparent bg-surface-container-low py-4 transition-all duration-200 outline-none placeholder:text-outline/60 focus:border-primary focus:ring-0;
+  }
+
+  /* Login-style fields (no leading icon, fixed height). */
+  .auth-field-input {
+    @apply h-12 w-full rounded-t-lg border-b-2 border-transparent bg-surface-container-low px-4 font-medium text-on-surface transition-all duration-200 outline-none placeholder:text-outline/50 focus:border-primary focus:ring-0;
+  }
+
+  /* Settings / change-password form inputs. */
+  .settings-field-input {
+    @apply w-full rounded-t-lg border-b-2 border-transparent bg-surface-container-low px-4 py-4 text-on-surface outline-none transition-all focus:border-primary-container focus:ring-0;
+  }
+}

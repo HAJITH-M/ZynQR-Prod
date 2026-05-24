@@ -1,0 +1,33 @@
+User-agent: *
+Allow: /
+Allow: /features
+Allow: /api
+Allow: /pricing
+Allow: /contact
+
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /change-password
+Disallow: /link-inactive
+Disallow: /qr-not-found
+Disallow: /qr/
+Disallow: /oauth/
+
+# Block known AI training crawlers by default.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
