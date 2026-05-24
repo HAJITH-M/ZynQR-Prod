@@ -157,7 +157,7 @@ export default function DashboardUserGuide() {
 
   return (
     <div className={`${DASHBOARD_PAGE_SHELL} min-w-0`}>
-      <header className="max-w-3xl">
+      <header className="max-w-3xl mt-20 lg:mt-0">
         <p className="font-label mb-2 text-xs font-bold tracking-widest text-primary uppercase">
           Documentation
         </p>
@@ -211,7 +211,7 @@ export default function DashboardUserGuide() {
         </div>
       </div>
 
-      <div aria-hidden className="h-17 shrink-0 lg:hidden" />
+      {/* <div aria-hidden className="h-17 shrink-0 lg:hidden" /> */}
 
       <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
         <nav
