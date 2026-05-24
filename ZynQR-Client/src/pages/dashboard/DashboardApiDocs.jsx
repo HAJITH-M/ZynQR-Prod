@@ -91,7 +91,7 @@ function ApiDocSection({ section }) {
   return (
     <section
       id={section.id}
-      className="scroll-mt-28 rounded-4xl border border-outline-variant/15 bg-surface-container-lowest p-6 sm:p-8 lg:scroll-mt-24"
+      className="scroll-mt-40 rounded-4xl border border-outline-variant/15 bg-surface-container-lowest p-6 sm:p-8 lg:scroll-mt-24"
     >
       <div className="mb-4 flex items-start gap-4">
         <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
@@ -290,7 +290,48 @@ export default function DashboardApiDocs() {
 
   return (
     <div className={`${DASHBOARD_PAGE_SHELL} min-w-0`}>
-      <header className="max-w-3xl mt-20 lg:mt-0">
+      {/* Mobile / tablet: renders first so it sits at the top, then sticks under dashboard header on scroll */}
+      <div className="sticky top-16 z-30 -mx-4 -mt-8 border-b border-outline-variant/15 bg-surface-bright/95 px-4 py-2 shadow-sm backdrop-blur-md md:-mx-8 md:px-8 lg:hidden">
+        <button
+          aria-expanded={mobileTocOpen}
+          className="flex min-h-11 w-full items-center gap-3 rounded-xl border border-outline-variant/20 bg-surface-container-lowest px-3 py-2 text-left transition-colors hover:border-primary/30"
+          type="button"
+          onClick={() => setMobileTocOpen((o) => !o)}
+        >
+          <span className="material-symbols-outlined shrink-0 text-xl text-primary">list</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">
+              Jump to section
+            </span>
+            <span className="block truncate text-sm font-bold text-on-surface">{activeSection?.title}</span>
+          </span>
+          <span
+            className={`material-symbols-outlined shrink-0 text-on-surface-variant transition-transform ${
+              mobileTocOpen ? "rotate-180" : ""
+            }`}
+          >
+            expand_more
+          </span>
+        </button>
+
+        {mobileTocOpen ? (
+          <div className="mt-2 max-h-[min(50vh,20rem)] overflow-y-auto rounded-2xl border border-outline-variant/15 bg-surface-container-lowest p-2 shadow-lg">
+            <ol className="space-y-0.5">
+              {API_DOC_SECTIONS.map((s, i) => (
+                <TocLink
+                  key={s.id}
+                  activeId={activeId}
+                  index={i}
+                  section={s}
+                  onNavigate={() => setMobileTocOpen(false)}
+                />
+              ))}
+            </ol>
+          </div>
+        ) : null}
+      </div>
+
+      <header className="max-w-3xl">
         <p className="font-label mb-2 text-xs font-bold tracking-widest text-primary uppercase">Developers</p>
         <h1 className="font-headline mb-3 text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
           {API_DOCS_INTRO.title}
@@ -301,47 +342,6 @@ export default function DashboardApiDocs() {
         </p>
         <p className="mt-1 text-xs text-on-surface-variant/80">Last updated {API_DOCS_INTRO.updated}</p>
       </header>
-
-      <div className="fixed top-16 right-0 left-0 z-30 border-b border-outline-variant/15 bg-surface-bright/95 shadow-sm backdrop-blur-md lg:hidden">
-        <div className="mx-auto w-full max-w-7xl px-4 py-2 md:px-8">
-          <button
-            aria-expanded={mobileTocOpen}
-            className="flex w-full min-h-11 items-center gap-3 rounded-xl border border-outline-variant/20 bg-surface-container-lowest px-3 py-2 text-left"
-            type="button"
-            onClick={() => setMobileTocOpen((o) => !o)}
-          >
-            <span className="material-symbols-outlined shrink-0 text-xl text-primary">list</span>
-            <span className="min-w-0 flex-1">
-              <span className="block text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">
-                Jump to section
-              </span>
-              <span className="block truncate text-sm font-bold text-on-surface">{activeSection?.title}</span>
-            </span>
-            <span
-              className={`material-symbols-outlined shrink-0 transition-transform ${mobileTocOpen ? "rotate-180" : ""}`}
-            >
-              expand_more
-            </span>
-          </button>
-          {mobileTocOpen ? (
-            <div className="mt-2 max-h-[min(50vh,20rem)] overflow-y-auto rounded-2xl border border-outline-variant/15 bg-surface-container-lowest p-2 shadow-lg">
-              <ol className="space-y-0.5">
-                {API_DOC_SECTIONS.map((s, i) => (
-                  <TocLink
-                    key={s.id}
-                    activeId={activeId}
-                    index={i}
-                    section={s}
-                    onNavigate={() => setMobileTocOpen(false)}
-                  />
-                ))}
-              </ol>
-            </div>
-          ) : null}
-        </div>
-      </div>
-
-      {/* <div aria-hidden className="h-17 shrink-0 lg:hidden" /> */}
 
       <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
         <nav
