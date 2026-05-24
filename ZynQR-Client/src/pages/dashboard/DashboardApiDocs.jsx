@@ -6,7 +6,7 @@ import {
   API_DOCS_INTRO,
   API_ENV_VARS,
   API_FRONTEND_CLIENTS,
-  API_GITHUB_REPO_ROOT,
+  API_GITHUB_LINK,
 } from "../../lib/dashboard/apiDocsContent";
 import {
   downloadApiReferenceJson,
@@ -206,6 +206,15 @@ function ApiDocSection({ section }) {
               <span className="material-symbols-outlined text-lg">description</span>
               Download API reference (Markdown)
             </button>
+            <a
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border-2 border-outline-variant/40 bg-surface-container-low/80 px-5 py-2.5 text-sm font-bold text-on-surface transition-colors hover:border-primary/40 hover:bg-primary/5 sm:w-auto lg:hidden"
+              href={API_GITHUB_LINK}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <span className="material-symbols-outlined text-lg">code</span>
+              View on GitHub
+            </a>
           </div>
           <p className="text-xs text-on-surface-variant">
             To download the full codebase, zip or clone the <code className="text-[10px]">code-generator</code> and{" "}
@@ -372,17 +381,15 @@ export default function DashboardApiDocs() {
                 <span className="material-symbols-outlined text-sm">description</span>
                 Markdown
               </button>
-              {API_GITHUB_REPO_ROOT ? (
-                <a
-                  className="flex w-full items-center justify-center gap-2 rounded-full border border-outline-variant bg-surface-container-low/80 px-3 py-2 text-xs font-bold text-on-surface transition-colors hover:border-primary/40 hover:bg-primary/5"
-                  href={API_GITHUB_REPO_ROOT}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <span className="material-symbols-outlined text-sm">code</span>
-                  GitHub
-                </a>
-              ) : null}
+              <a
+                className="flex w-full items-center justify-center gap-2 rounded-full border border-outline-variant bg-surface-container-low/80 px-3 py-2 text-xs font-bold text-on-surface transition-colors hover:border-primary/40 hover:bg-primary/5"
+                href={API_GITHUB_LINK}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span className="material-symbols-outlined text-sm">code</span>
+                GitHub
+              </a>
             </div>
           </div>
         </nav>

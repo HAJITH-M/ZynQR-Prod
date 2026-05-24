@@ -117,6 +117,9 @@ export const API_GITHUB_REPO_ROOT =
     ? String(import.meta.env.VITE_GITHUB_REPO_URL).replace(/\/$/, "")
     : "";
 
+/** Resolved GitHub link for API Docs buttons (env var or documented example). */
+export const API_GITHUB_LINK = API_GITHUB_REPO_ROOT || "https://github.com/Hajith-M/zynqr";
+
 export const API_CODEBASE_REPOS = [
   {
     name: "Frontend (React + Vite)",
