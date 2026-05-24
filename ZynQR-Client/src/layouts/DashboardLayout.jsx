@@ -86,12 +86,12 @@ function DashboardLayout() {
           </div>
           <div className="flex shrink-0 items-center gap-2 sm:gap-4">
             <div className="flex items-center gap-1 sm:mr-2 sm:gap-2">
-              <button
+              {/* <button
                 className="flex size-10 items-center justify-center p-0 text-on-surface transition-all hover:text-primary-container"
                 type="button"
               >
                 <span className="material-symbols-outlined text-2xl leading-none">notifications</span>
-              </button>
+              </button> */}
               <Link
                 aria-label="User guide"
                 className="flex size-10 items-center justify-center p-0 text-on-surface transition-all hover:text-primary-container"
