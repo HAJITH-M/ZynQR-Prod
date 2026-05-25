@@ -50,6 +50,32 @@ func CreateUserWithAuthRepo(user *authmodel.User, method *authmodel.Authenticati
 	return err
 }
 
+// DeleteUserCascadeRepo wipes a user along with any rows tied to it
+// (authentication methods, user tokens, sessions, security audit logs).
+// Used to roll back a freshly-created account when a follow-up step fails —
+// e.g. registration where the verification email cannot be delivered, so we
+// want zero leftover rows in `users`, `authentication_methods`, `user_tokens`.
+func DeleteUserCascadeRepo(userID string) error {
+	return database.DB.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Where("user_id = ?", userID).Delete(&authmodel.UserToken{}).Error; err != nil {
+			return err
+		}
+		if err := tx.Where("user_id = ?", userID).Delete(&authmodel.AuthenticationMethod{}).Error; err != nil {
+			return err
+		}
+		if err := tx.Where("user_id = ?", userID).Delete(&authmodel.Session{}).Error; err != nil {
+			return err
+		}
+		if err := tx.Where("user_id = ?", userID).Delete(&authmodel.SecurityAuditLog{}).Error; err != nil {
+			return err
+		}
+		if err := tx.Where("id = ?", userID).Delete(&authmodel.User{}).Error; err != nil {
+			return err
+		}
+		return nil
+	})
+}
+
 func GetAuthenticationMethodUserRepo(email string) (*authmodel.User, error) {
 
 	var user authmodel.User

@@ -60,13 +60,13 @@ func RegisterService(input RegisterInput) (*RegisterResult, error) {
 		UpdatedAt:    now,
 	}
 
-	err = repository.CreateUserWithAuthRepo(user, method)
-	if err != nil {
+	if err := repository.CreateUserWithAuthRepo(user, method); err != nil {
 		return nil, autherrors.ErrFailedToCreateAccount
 	}
 
 	rawToken, err := utils.GenerateSecureToken(userID)
 	if err != nil {
+		_ = repository.DeleteUserCascadeRepo(userID)
 		return nil, autherrors.ErrFailedToGenerateVerificationToken
 	}
 
@@ -84,17 +84,17 @@ func RegisterService(input RegisterInput) (*RegisterResult, error) {
 	}
 
 	if err := repository.UserTokenCreationRepo(userToken); err != nil {
+		_ = repository.DeleteUserCascadeRepo(userID)
 		return nil, autherrors.ErrFailedToSaveToken
 	}
 
-	// Respond after DB work; send mail in background so SMTP latency does not block the client.
-	toEmail := user.Email
-	displayName := user.DisplayName
-	go func() {
-		if err := mailer.SendEmailVerificationEmail(toEmail, displayName, rawToken); err != nil {
-			log.Printf("[register] verification email to %s failed: %v", toEmail, err)
+	if err := mailer.SendEmailVerificationEmail(user.Email, user.DisplayName, rawToken); err != nil {
+		log.Printf("[register] verification email to %s failed: %v — rolling back account", user.Email, err)
+		if cleanupErr := repository.DeleteUserCascadeRepo(userID); cleanupErr != nil {
+			log.Printf("[register] rollback for user %s failed: %v", userID, cleanupErr)
 		}
-	}()
+		return nil, autherrors.ErrFailedToSendVerificationEmail
+	}
 
 	return &RegisterResult{
 		Email:       user.Email,

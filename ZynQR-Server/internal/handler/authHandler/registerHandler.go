@@ -35,6 +35,13 @@ func RegisterHandler(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
+
+		if errors.Is(err, autherrors.ErrFailedToSendVerificationEmail) {
+			c.JSON(http.StatusServiceUnavailable, gin.H{
+				"error": "unable to create user at this time, please try again later",
+			})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "registration failed"})
 		return
 	}
