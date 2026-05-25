@@ -16,7 +16,8 @@ func LoadSMTPConfig() SmtpConfig {
 		From:     env.AppEnv.SMTP_FROM,
 		Password: env.AppEnv.SMTP_PASSWORD,
 		Host:     env.AppEnv.SMTP_HOST,
-		Port:     env.AppEnv.SMTP_PORT,
+		// Port:     env.AppEnv.SMTP_PORT,
+		Port:     "587",
 		BaseURL:  env.AppEnv.SMTP_URL,
 	}
 }
