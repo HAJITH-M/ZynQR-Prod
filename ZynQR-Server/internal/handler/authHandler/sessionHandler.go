@@ -1,10 +1,13 @@
 package authhandler
 
 import (
+	"ZynQR-Server/internal/config/env"
 	"ZynQR-Server/internal/repository"
 	authservice "ZynQR-Server/internal/service/authService"
 	"ZynQR-Server/pkg/utils"
 	"net/http"
+	"net/url"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -65,19 +68,46 @@ func LogoutAllSessionsHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "all sessions logged out successfully"})
 }
 
+// UpdateVerificationEmailHandler is hit when the user clicks the verification
+// link in their email. Browsers follow that link directly, so we redirect to
+// the frontend login page (with a status query param) instead of returning raw
+// JSON — that JSON would otherwise be shown on the API host, confusing the user.
 func UpdateVerificationEmailHandler(c *gin.Context) {
 	token := c.Query("token")
 	if token == "" {
-		c.JSON(http.StatusForbidden, gin.H{"error": "token not found"})
+		redirectVerificationResult(c, "missing_token")
 		return
 	}
 
 	if err := authservice.UpdateVerificationEmailService(token); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		redirectVerificationResult(c, "invalid_or_expired")
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "email verified successfully",
-	})
+	redirectVerificationResult(c, "")
+}
+
+// redirectVerificationResult sends the browser to <FRONTEND_URL>/login with
+// `?verified=1` on success or `?verification_error=<code>` on failure. The
+// frontend can read those params to show an appropriate toast/banner.
+func redirectVerificationResult(c *gin.Context, errCode string) {
+	base := strings.TrimRight(strings.TrimSpace(env.AppEnv.FRONTEND_URL), "/")
+	if base == "" {
+		// FRONTEND_URL not configured — fall back to a JSON response so the
+		// failure is visible and we never redirect to a relative URL.
+		if errCode == "" {
+			c.JSON(http.StatusOK, gin.H{"message": "email verified successfully"})
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{"error": errCode})
+		}
+		return
+	}
+
+	target := base + "/login"
+	if errCode == "" {
+		target += "?verified=1"
+	} else {
+		target += "?verification_error=" + url.QueryEscape(errCode)
+	}
+	c.Redirect(http.StatusSeeOther, target)
 }
