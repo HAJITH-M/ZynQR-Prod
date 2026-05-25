@@ -93,7 +93,7 @@ export default function DashboardOverview() {
       </section>
 
       <section className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <div className="group relative col-span-1 flex min-h-[220px] flex-col justify-between overflow-hidden rounded-4xl bg-surface-container-lowest p-6 sm:p-8 md:col-span-2">
+        <div className="group relative col-span-1 flex min-h-55 flex-col justify-between overflow-hidden rounded-4xl bg-surface-container-lowest p-6 sm:p-8 md:col-span-2">
           <div className="absolute top-0 right-0 p-8">
             <span className="material-symbols-outlined text-8xl text-primary/20 transition-transform duration-500 group-hover:scale-110">
               analytics
@@ -112,7 +112,7 @@ export default function DashboardOverview() {
           </div>
         </div>
 
-        <div className="flex min-h-[200px] flex-col justify-between rounded-4xl bg-primary p-6 text-white shadow-2xl shadow-primary/20 transition-shadow hover:shadow-primary/30 sm:min-h-0 sm:p-8">
+        <div className="flex min-h-50 flex-col justify-between rounded-4xl bg-primary p-6 text-white shadow-2xl shadow-primary/20 transition-shadow hover:shadow-primary/30 sm:min-h-0 sm:p-8">
           <div>
             <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md">
               <span
@@ -302,15 +302,16 @@ export default function DashboardOverview() {
       </section>
 
       {generateMenuOpen ? (
-        <div className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-6">
+        <div className="fixed inset-0 z-100 overflow-y-auto overscroll-contain">
           <button
             type="button"
-            className="absolute inset-0 bg-black/45 backdrop-blur-[2px]"
+            className="fixed inset-0 bg-black/45 backdrop-blur-[2px]"
             aria-label="Close dialog"
             onClick={() => setGenerateMenuOpen(false)}
           />
+          <div className="relative flex min-h-full items-center justify-center p-4 sm:p-6">
           <div
-            className="relative z-10 w-full max-w-4xl overflow-hidden rounded-2xl border border-outline-variant/20 bg-surface-container-lowest shadow-2xl"
+            className="relative z-10 my-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-outline-variant/20 bg-surface-container-lowest shadow-2xl"
             role="dialog"
             aria-modal="true"
             aria-labelledby="generate-code-dialog-title"
@@ -416,6 +417,7 @@ export default function DashboardOverview() {
                 View static QR list
               </Link>
             </div> */}
+          </div>
           </div>
         </div>
       ) : null}
