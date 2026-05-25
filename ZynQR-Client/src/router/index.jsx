@@ -14,6 +14,7 @@ import DashboardRecentActivity from "../pages/dashboard/DashboardRecentActivity"
 import DashboardSecurity from "../pages/dashboard/DashboardSecurity";
 import DashboardUserGuide from "../pages/dashboard/DashboardUserGuide";
 import DashboardApiDocs from "../pages/dashboard/DashboardApiDocs";
+import EmailVerified from "../pages/emailVerified/EmailVerified";
 import ForgotPassword from "../pages/forgotPassword/ForgotPassword";
 import LandingApi from "../pages/landing/LandingApi";
 import LandingFeatures from "../pages/landing/LandingFeatures";
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: "/oauth/callback",
         element: <OAuthCallback />,
+      },
+      {
+        path: "/email-verified",
+        element: <EmailVerified />,
       },
       {
         path: "/link-inactive",

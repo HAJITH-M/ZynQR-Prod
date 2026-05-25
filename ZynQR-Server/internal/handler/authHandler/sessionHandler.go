@@ -87,9 +87,9 @@ func UpdateVerificationEmailHandler(c *gin.Context) {
 	redirectVerificationResult(c, "")
 }
 
-// redirectVerificationResult sends the browser to <FRONTEND_URL>/login with
-// `?verified=1` on success or `?verification_error=<code>` on failure. The
-// frontend can read those params to show an appropriate toast/banner.
+// redirectVerificationResult sends the browser to the dedicated frontend page
+// <FRONTEND_URL>/email-verified — with no params on success, or `?error=<code>`
+// when the token was missing/expired so the page can show the failure variant.
 func redirectVerificationResult(c *gin.Context, errCode string) {
 	base := strings.TrimRight(strings.TrimSpace(env.AppEnv.FRONTEND_URL), "/")
 	if base == "" {
@@ -103,11 +103,9 @@ func redirectVerificationResult(c *gin.Context, errCode string) {
 		return
 	}
 
-	target := base + "/login"
-	if errCode == "" {
-		target += "?verified=1"
-	} else {
-		target += "?verification_error=" + url.QueryEscape(errCode)
+	target := base + "/email-verified"
+	if errCode != "" {
+		target += "?error=" + url.QueryEscape(errCode)
 	}
 	c.Redirect(http.StatusSeeOther, target)
 }

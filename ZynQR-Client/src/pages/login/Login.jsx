@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import AuthBrandPanel from "../../components/auth/AuthBrandPanel";
 import AuthFormLogo from "../../components/auth/AuthFormLogo";
@@ -28,39 +28,13 @@ function finishAuthSuccess(data, navigate) {
   navigate("/dashboard");
 }
 
-const VERIFICATION_ERROR_MESSAGES = {
-  missing_token: "Verification link is incomplete. Please request a new one.",
-  invalid_or_expired: "This verification link has expired or already been used. Please request a new one.",
-};
-
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const fromRegistration = Boolean(location.state?.registered);
-  const [searchParams, setSearchParams] = useSearchParams();
   const [step, setStep] = useState("password");
   const [twoFactorTicket, setTwoFactorTicket] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
-  const handledVerificationToastRef = useRef(false);
-
-  useEffect(() => {
-    if (handledVerificationToastRef.current) return;
-    const verified = searchParams.get("verified");
-    const verificationError = searchParams.get("verification_error");
-    if (!verified && !verificationError) return;
-
-    handledVerificationToastRef.current = true;
-    if (verified) {
-      toast.success("Email verified. You can sign in now.");
-    } else if (verificationError) {
-      toast.error(VERIFICATION_ERROR_MESSAGES[verificationError] ?? "Email verification failed.");
-    }
-
-    const next = new URLSearchParams(searchParams);
-    next.delete("verified");
-    next.delete("verification_error");
-    setSearchParams(next, { replace: true });
-  }, [searchParams, setSearchParams]);
 
   const loginMutation = useMutation({
     mutationKey: ["login"],
