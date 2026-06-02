@@ -29,11 +29,23 @@ func ipGeoSkipReason(ip net.IP) string {
 	return ""
 }
 
-// LookupApproxPlaceFromIP returns approximate city and country for a public IPv4 address.
-// Uses ipapi.co free tier (rate-limited). Private, loopback, unspecified, and non-IPv4
+// LookupApproxPlaceFromIP returns approximate city and country for a public IP address.
+// Uses ipapi.co free tier (rate-limited). Private, loopback, and unspecified
 // addresses return empty strings so redirects stay fast and predictable.
+// Both IPv4 and IPv6 are supported.
 func LookupApproxPlaceFromIP(ctx context.Context, ipStr string) (city, country string) {
+	// Defensive: c.ClientIP() should already give a single address, but if an
+	// upstream ever passes the raw X-Forwarded-For chain ("client, proxy1, ..."),
+	// we want the left-most entry (the real client).
 	raw := strings.TrimSpace(ipStr)
+	if comma := strings.IndexByte(raw, ','); comma >= 0 {
+		raw = strings.TrimSpace(raw[:comma])
+	}
+	// Strip an optional ":port" or "[v6]:port" suffix.
+	if host, _, err := net.SplitHostPort(raw); err == nil {
+		raw = host
+	}
+
 	ip := net.ParseIP(raw)
 	if ip == nil || ip.IsLoopback() || ip.IsPrivate() || ip.IsUnspecified() {
 		reason := ipGeoSkipReason(ip)
@@ -41,10 +53,6 @@ func LookupApproxPlaceFromIP(ctx context.Context, ipStr string) (city, country s
 			reason = "skipped"
 		}
 		fmt.Printf("[ip_geo] skip %q: %s\n", raw, reason)
-		return "", ""
-	}
-	if ip.To4() == nil {
-		fmt.Printf("[ip_geo] skip %s: non-IPv4 (geocoder path is IPv4-only for now)\n", ip.String())
 		return "", ""
 	}
 

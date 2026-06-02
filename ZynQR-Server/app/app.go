@@ -25,7 +25,12 @@ func Handler() (http.Handler, error) {
 		gin.SetMode(gin.ReleaseMode)
 
 		r := gin.New()
-		_ = r.SetTrustedProxies(nil)
+		// Running behind Vercel's edge proxy: the real client IP is in
+		// X-Forwarded-For. TrustedPlatform makes c.ClientIP() read that header
+		// directly (bypassing the TrustedProxies CIDR check, which is unknown
+		// in serverless). Without this, c.ClientIP() returns Vercel's internal
+		// peer address and ip_geo lookups skip as "private LAN IP".
+		r.TrustedPlatform = "X-Forwarded-For"
 
 		env.Load()
 		redisconfig.RedisConfig()
