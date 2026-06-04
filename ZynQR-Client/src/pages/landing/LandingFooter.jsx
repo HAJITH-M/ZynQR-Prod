@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { LANDING_FOOTER_LINK_GROUPS, LANDING_FOOTER_SOCIAL } from "../../lib/landing/footerLinks";
+import { APP_VERSION_LABEL } from "../../lib/appMeta";
 
 function FooterLinkItem({ item }) {
   const className = "hover:text-primary";
@@ -54,9 +55,15 @@ export default function LandingFooter() {
           </div>
         ))}
       </div>
-      <div className="container mx-auto mt-20 border-t border-outline-variant/30 pt-10 text-center">
+      <div className="container mx-auto mt-20 flex flex-col items-center gap-2 border-t border-outline-variant/30 pt-10 text-center sm:flex-row sm:justify-center sm:gap-3">
         <span className="text-sm text-on-surface-variant">
           © 2026 ZynQR Precision QR. All rights reserved.
+        </span>
+        <span className="hidden text-on-surface-variant/40 sm:inline" aria-hidden="true">
+          •
+        </span>
+        <span className="text-xs font-medium tracking-wider text-on-surface-variant/70">
+          {APP_VERSION_LABEL}
         </span>
       </div>
     </footer>

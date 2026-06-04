@@ -1,11 +1,19 @@
+import { readFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { VitePWA } from "vite-plugin-pwa";
 
+// Single source of truth for the app version: package.json "version".
+const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8"));
+
 // https://vite.dev/config/
 export default defineConfig({
+  define: {
+    // Inlined at build time so the UI can show the running version.
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   plugins: [
     react(),
     babel({ presets: [reactCompilerPreset()] }),
