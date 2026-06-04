@@ -4,6 +4,7 @@ import { clearAuthToken } from "../../api/axiosInstance";
 import { logoutCurrentSession } from "../../api/auth.api";
 import { useInstallApp } from "../../hooks/useInstallApp";
 import { LANDING_FREE_PLAN } from "../../lib/landing/pricingPlans";
+import { APP_VERSION_LABEL } from "../../lib/appMeta";
 import { toast } from "../../utils/toast";
 import {
   dashboardSidebarLinks,
@@ -242,6 +243,9 @@ export default function DashboardSidebarNav({ onNavigate, showCloseButton }) {
           <span className="material-symbols-outlined">logout</span>
           <span>Logout</span>
         </NavLink>
+        <p className="px-3 text-center text-[10px] font-medium tracking-wider text-on-surface-variant/50">
+          ZynQR {APP_VERSION_LABEL}
+        </p>
       </div>
     </div>
   );
