@@ -174,7 +174,7 @@ export default function DashboardMyQrs() {
         </ol>
       </nav>
 
-      <header className="mb-8 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+      <header className="mb-8 flex flex-col justify-between gap-6 xl:flex-row xl:items-end">
         <div className="min-w-0">
           <h1 className="font-headline mb-3 text-4xl font-extrabold tracking-tight text-on-surface">My QR Codes</h1>
           <div
@@ -221,7 +221,7 @@ export default function DashboardMyQrs() {
             </p>
           )}
         </div>
-        <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-end lg:min-w-0 lg:max-w-xl lg:flex-1 xl:max-w-2xl">
+        <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-end xl:min-w-0 xl:max-w-xl xl:flex-1 2xl:max-w-2xl">
           <div className="min-w-0 w-full flex-1">
             <TextField
               id="qr-search"

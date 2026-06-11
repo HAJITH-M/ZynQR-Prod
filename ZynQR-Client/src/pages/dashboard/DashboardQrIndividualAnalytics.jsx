@@ -229,7 +229,7 @@ export default function DashboardQrIndividualAnalytics() {
       {!row ? null : (
       <>
       <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-        <div>
+        <div className="min-w-0">
           <div className="mb-2 flex flex-wrap items-center gap-3 text-xs font-bold tracking-widest text-primary uppercase">
             <Link
               className="flex items-center gap-1 transition-colors hover:text-primary-container hover:underline"
@@ -268,16 +268,16 @@ export default function DashboardQrIndividualAnalytics() {
             <strong className="text-on-surface">recent scan logs</strong> come from the API. Map preview below is still decorative.
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
           <Link
-            className="flex items-center gap-2 rounded-full bg-surface-container-high px-6 py-3 font-bold text-on-surface transition-colors hover:bg-surface-container-highest"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-surface-container-high px-6 py-3 font-bold whitespace-nowrap text-on-surface transition-colors hover:bg-surface-container-highest sm:w-auto"
             to={`/dashboard/my-qrs/${row.id}/edit`}
           >
             <span className="material-symbols-outlined">edit</span>
             Edit QR
           </Link>
           <button
-            className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-bold text-on-primary shadow-lg shadow-primary/20 transition-transform hover:scale-105 active:scale-95"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-bold whitespace-nowrap text-on-primary shadow-lg shadow-primary/20 transition-transform hover:scale-105 active:scale-95 sm:w-auto"
             type="button"
           >
             <span className="material-symbols-outlined">ios_share</span>
