@@ -120,7 +120,7 @@ export default function DashboardCreateStaticQr() {
                   </button>
                   <Link
                     className="flex w-full items-center justify-center rounded-full bg-surface-container-high px-8 py-4 font-semibold text-on-surface hover:bg-surface-container-highest md:w-auto"
-                    to="/dashboard"
+                    to="/dashboard/my-qrs?tab=static"
                   >
                     Cancel
                   </Link>
