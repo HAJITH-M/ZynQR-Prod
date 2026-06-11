@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import QrCodeDeleteConfirmModal from "../../components/dashboard/QrCodeDeleteConfirmModal";
 import QrCodesTable from "../../components/dashboard/QrCodesTable";
@@ -29,7 +29,18 @@ function formatCreatedAt(createdRaw) {
 
 export default function DashboardMyQrs() {
   const queryClient = useQueryClient();
-  const [listTab, setListTab] = useState("dynamic");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const listTab = searchParams.get("tab") === "static" ? "static" : "dynamic";
+  const setListTab = (tab) => {
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        next.set("tab", tab);
+        return next;
+      },
+      { replace: true },
+    );
+  };
   const { data: rows = [], isLoading, isError, error, refetch } = useQrListQuery();
   const {
     data: staticData,

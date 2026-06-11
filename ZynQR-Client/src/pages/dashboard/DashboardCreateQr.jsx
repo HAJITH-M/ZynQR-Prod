@@ -31,7 +31,7 @@ export default function DashboardCreateQr() {
       queryClient.invalidateQueries({ queryKey: QR_LIST_QUERY_KEY });
       queryClient.invalidateQueries({ queryKey: QR_ACTIVITY_QUERY_KEY });
       queryClient.invalidateQueries({ queryKey: QR_ANALYTICS_SUMMARY_QUERY_KEY });
-      navigate("/dashboard/my-qrs");
+      navigate("/dashboard/my-qrs?tab=dynamic");
     },
     onError: (e) => {
       toastApiError(e, "Could not create QR code");
@@ -62,8 +62,8 @@ export default function DashboardCreateQr() {
   return (
     <div className="relative flex min-h-[calc(100vh-4rem)] flex-col overflow-hidden px-4 py-8 md:py-12">
       <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute top-[-10%] right-[-5%] h-[400px] w-[400px] rounded-full bg-primary-container/5 blur-[100px]" />
-        <div className="absolute bottom-[-10%] left-[-5%] h-[300px] w-[300px] rounded-full bg-tertiary-container/5 blur-[80px]" />
+        <div className="absolute top-[-10%] right-[-5%] h-100 w-100 rounded-full bg-primary-container/5 blur-[100px]" />
+        <div className="absolute bottom-[-10%] left-[-5%] h-75 w-75 rounded-full bg-tertiary-container/5 blur-[80px]" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-5xl">

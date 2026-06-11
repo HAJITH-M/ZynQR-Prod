@@ -22,7 +22,7 @@ export default function DashboardCreateStaticQr() {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: STATIC_QR_LIST_QUERY_KEY });
-      navigate("/dashboard/static-qrs");
+      navigate("/dashboard/my-qrs?tab=static");
     },
     onError: (e) => {
       toastApiError(e, "Could not create static QR");
@@ -53,7 +53,7 @@ export default function DashboardCreateStaticQr() {
   return (
     <div className="relative flex min-h-0 flex-1 flex-col justify-center overflow-hidden px-4 py-8 md:py-12">
       <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute top-[-10%] right-[-5%] h-[400px] w-[400px] rounded-full bg-primary-container/5 blur-[100px]" />
+        <div className="absolute top-[-10%] right-[-5%] h-100 w-100 rounded-full bg-primary-container/5 blur-[100px]" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-5xl shrink-0">
