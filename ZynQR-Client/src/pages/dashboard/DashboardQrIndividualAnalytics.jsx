@@ -306,7 +306,7 @@ export default function DashboardQrIndividualAnalytics() {
               fileStem={row.id}
               imageSrc={row.qrImageUrl?.trim() ?? ""}
             >
-              <div className="flex aspect-square w-full max-w-[220px] items-center justify-center rounded-2xl border border-slate-100 bg-white p-4 shadow-xl shadow-on-surface/5 sm:max-w-[260px] md:max-w-[min(100%,280px)] lg:max-h-[min(280px,40vh)]">
+              <div className="flex aspect-square w-full max-w-55 items-center justify-center rounded-2xl border border-slate-100 bg-white p-4 shadow-xl shadow-on-surface/5 sm:max-w-65 md:max-w-[min(100%,280px)] lg:max-h-[min(280px,40vh)]">
                 {row.qrImageUrl ? (
                   <img alt="QR code" className="h-full w-full object-contain" src={row.qrImageUrl} />
                 ) : (
@@ -316,10 +316,10 @@ export default function DashboardQrIndividualAnalytics() {
             </QrExportFormatPanel>
           </div>
 
-          <div className="relative flex h-full min-h-[11rem] flex-col justify-center overflow-hidden rounded-2xl bg-linear-to-br from-primary via-primary to-primary/85 p-6 text-white shadow-lg shadow-primary/25 ring-1 ring-white/15 lg:min-h-0 lg:col-start-2 lg:row-start-1">
+          <div className="relative flex h-full min-h-44 flex-col justify-center overflow-hidden rounded-2xl bg-linear-to-br from-primary via-primary to-primary/85 p-6 text-white shadow-lg shadow-primary/25 ring-1 ring-white/15 lg:min-h-0 lg:col-start-2 lg:row-start-1">
             <div className="pointer-events-none absolute -top-12 -right-8 h-36 w-36 rounded-full bg-white/20 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-16 -left-10 h-44 w-44 rounded-full bg-black/20 blur-3xl" />
-            <div className="relative z-[1]">
+            <div className="relative z-1">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-[10px] font-black tracking-widest uppercase backdrop-blur-sm">
                 <span className="material-symbols-outlined text-[16px] text-white" aria-hidden>
                   trending_up
@@ -329,7 +329,7 @@ export default function DashboardQrIndividualAnalytics() {
               <h2 className="font-headline mt-4 text-4xl font-black tracking-tight tabular-nums sm:text-5xl">
                 {formatScans(row.scans)}
               </h2>
-              <p className="mt-3 max-w-[14rem] text-xs font-medium leading-relaxed text-white/85">
+              <p className="mt-3 max-w-56 text-xs font-medium leading-relaxed text-white/85">
                 Live count from your server — every successful scan on this link.
               </p>
             </div>
@@ -341,9 +341,9 @@ export default function DashboardQrIndividualAnalytics() {
             </span>
           </div>
 
-          <div className="relative flex h-full min-h-[11rem] flex-col justify-center overflow-hidden rounded-2xl border border-primary/20 bg-linear-to-br from-surface-container-lowest via-surface-container-lowest to-primary/5 p-6 shadow-md ring-1 ring-outline-variant/10 lg:min-h-0 lg:col-start-2 lg:row-start-2">
+          <div className="relative flex h-full min-h-44 flex-col justify-center overflow-hidden rounded-2xl border border-primary/20 bg-linear-to-br from-surface-container-lowest via-surface-container-lowest to-primary/5 p-6 shadow-md ring-1 ring-outline-variant/10 lg:min-h-0 lg:col-start-2 lg:row-start-2">
             <div className="pointer-events-none absolute top-0 right-0 h-28 w-28 rounded-bl-[100%] bg-primary/8" />
-            <div className="relative z-[1]">
+            <div className="relative z-1">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-[10px] font-black tracking-widest text-primary uppercase">
                 <span className="material-symbols-outlined text-[16px]" aria-hidden>
                   diversity_3
@@ -353,7 +353,7 @@ export default function DashboardQrIndividualAnalytics() {
               <h2 className="font-headline mt-4 text-4xl font-black tracking-tight text-on-surface tabular-nums sm:text-5xl">
                 {formatScans(uniqueVisitors)}
               </h2>
-              <p className="mt-3 max-w-[15rem] text-xs leading-relaxed text-on-surface-variant">
+              <p className="mt-3 max-w-60 text-xs leading-relaxed text-on-surface-variant">
                 Estimated reach ({returnRate} return rate shown as a demo placeholder).
               </p>
             </div>
@@ -477,7 +477,7 @@ export default function DashboardQrIndividualAnalytics() {
                             ) : null}
                           </div>
                           <div
-                            className={`relative z-[1] w-full max-w-full rounded-t-sm transition-colors ${bar.className}`}
+                            className={`relative z-1 w-full max-w-full rounded-t-sm transition-colors ${bar.className}`}
                             style={{ height: `${bar.h}%`, minHeight: "6px" }}
                           />
                         </div>
@@ -514,7 +514,7 @@ export default function DashboardQrIndividualAnalytics() {
               </div>
             ) : null}
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[560px] text-left">
+              <table className="w-full min-w-140 text-left">
                 <thead className="border-b border-slate-100 bg-surface-container-low/80">
                   <tr>
                     <th className="px-6 py-3 text-[10px] font-black tracking-widest text-on-surface-variant uppercase">
@@ -601,7 +601,7 @@ export default function DashboardQrIndividualAnalytics() {
                     {"<"}
                   </button>
                   <span
-                    className="min-w-[4.5rem] px-2 text-center text-xs font-black tabular-nums text-on-surface"
+                    className="min-w-18 px-2 text-center text-xs font-black tabular-nums text-on-surface"
                     aria-current="page"
                   >
                     {scanLogEffectivePage} / {scanLogTotalPages}
