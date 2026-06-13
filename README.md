@@ -1,16 +1,35 @@
-# ZynQR — Backend (ZynQR-Server)
+# ZynQR
 
-Dynamic QR code management platform — backend API.
+**Dynamic QR code management platform** — change where a printed QR points without reprinting it, and track every scan.
+
+ZynQR is a full-stack project split into two parts that live in this repository:
+
+| Part | Folder | Stack |
+|---|---|---|
+| **Frontend** | [`ZynQR-Client/`](ZynQR-Client/) | React 19 · Vite · Tailwind CSS · TanStack Query · PWA |
+| **Backend** | [`ZynQR-Server/`](ZynQR-Server/) | Go · Gin · GORM · PostgreSQL · Redis |
+
+## What is ZynQR
+
+ZynQR lets users create and manage two kinds of QR codes:
+
+- **Dynamic QR** — the QR image encodes a stable ZynQR link (`/qr/<id>`). When scanned, the backend looks up the code and **redirects** to its current destination URL. The owner can change the destination, toggle analytics, or deactivate the code at any time without reprinting it. Each scan can be recorded with IP, user agent, and approximate geolocation.
+- **Static QR** — the destination is encoded directly into the QR image. No redirect, no scan tracking; useful for offline/permanent payloads.
+
+Around this sit a full auth system, a dashboard (analytics, activity, sessions, security audit), a documented REST API, an installable PWA, and a contact form.
+
+---
+
+# ZynQR — Backend (ZynQR-Server)
 
 Built with **Go · Gin · GORM · PostgreSQL · Redis**. It powers the full product: user identity (email/password + Google OAuth + 2FA), dynamic QR codes with live scan analytics, static QR generation, a contact inbox, and per-IP rate limiting. The same codebase runs as a standalone server or as a Vercel serverless function.
 
-> This README documents the backend. It also includes an overview of the **[React frontend](#frontend-zynqr-client)** (`ZynQR-Client`) and how the two connect, so the whole project is covered in one place.
+> The sections below document the backend in depth. They also include an overview of the **[React frontend](#frontend-zynqr-client)** (`ZynQR-Client`) and how the two connect.
 
 ---
 
 ## Table of Contents
 
-- [What is ZynQR](#what-is-zynqr)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
@@ -28,17 +47,7 @@ Built with **Go · Gin · GORM · PostgreSQL · Redis**. It powers the full prod
 - [Frontend (ZynQR-Client)](#frontend-zynqr-client)
 - [Security Notes](#security-notes)
 - [Production Checklist](#production-checklist)
-
----
-
-## What is ZynQR
-
-ZynQR lets users create and manage two kinds of QR codes:
-
-- **Dynamic QR** — the QR image encodes a stable ZynQR link (`/qr/<id>`). When scanned, the backend looks up the code and **redirects** to its current destination URL. The owner can change the destination, toggle analytics, or deactivate the code at any time without reprinting it. Each scan can be recorded with IP, user agent, and approximate geolocation.
-- **Static QR** — the destination is encoded directly into the QR image. No redirect, no scan tracking; useful for offline/permanent payloads.
-
-Around this sit a full auth system, a dashboard API (analytics, activity, sessions, security audit), and a contact form.
+- [License](#license)
 
 ---
 
@@ -445,6 +454,8 @@ The companion React SPA lives in `../ZynQR-Client` and talks to this API via `VI
 | Routing | React Router |
 | Data fetching | TanStack Query + Axios |
 | Styling | Tailwind CSS |
+| Notifications | Sonner |
+| UA parsing | `ua-parser-js` |
 | PWA | `vite-plugin-pwa` (installable, offline app shell) |
 
 **Page areas:**
@@ -494,3 +505,12 @@ VITE_GITHUB_REPO_URL=https://github.com/your-org/zynqr
 - [ ] `PUBLIC_SCAN_URL`, `FRONTEND_URL`, `INACTIVE_QR_PAGE_URL`, `QR_NOT_FOUND_PAGE_URL` point to deployed domains
 - [ ] Managed PostgreSQL + Redis reachable from the runtime
 - [ ] Secrets stored in the platform's env settings (never committed)
+
+---
+
+## License
+
+ZynQR is open source under the [MIT License](LICENSE) — © 2026 Hajith M.
+
+You are free to use, copy, modify, and distribute it (including for commercial purposes), provided the
+copyright notice and license text are retained. The software is provided "as is", without warranty of any kind.
