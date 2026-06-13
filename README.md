@@ -80,7 +80,6 @@ Built with **Go · Gin · GORM · PostgreSQL · Redis**. It powers the full prod
 | Auth tokens | JWT (`github.com/golang-jwt/jwt/v5`) |
 | OAuth | Google OAuth 2.0 (`golang.org/x/oauth2`) |
 | QR generation | `github.com/skip2/go-qrcode` |
-| User-agent parsing | `github.com/mileusna/useragent` |
 | Logging | `go.uber.org/zap` |
 | Email | SMTP (custom mailer package) |
 | Config | `github.com/joho/godotenv` (local) + `os.Getenv` |
@@ -455,7 +454,6 @@ The companion React SPA lives in `../ZynQR-Client` and talks to this API via `VI
 | Data fetching | TanStack Query + Axios |
 | Styling | Tailwind CSS |
 | Notifications | Sonner |
-| UA parsing | `ua-parser-js` |
 | PWA | `vite-plugin-pwa` (installable, offline app shell) |
 
 **Page areas:**
