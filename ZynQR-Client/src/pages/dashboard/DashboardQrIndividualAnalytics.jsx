@@ -276,13 +276,13 @@ export default function DashboardQrIndividualAnalytics() {
             <span className="material-symbols-outlined">edit</span>
             Edit QR
           </Link>
-          <button
+          {/* <button
             className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-bold whitespace-nowrap text-on-primary shadow-lg shadow-primary/20 transition-transform hover:scale-105 active:scale-95 sm:w-auto"
             type="button"
           >
             <span className="material-symbols-outlined">ios_share</span>
             Share Report
-          </button>
+          </button> */}
         </div>
       </div>
 
